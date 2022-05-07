@@ -120,3 +120,4 @@ while(True):
         
     pyperclip.copy(Output)
     print("sequence has been copied to clipboard.\n\n",Output)
+    input("Press enter to conitnue")
