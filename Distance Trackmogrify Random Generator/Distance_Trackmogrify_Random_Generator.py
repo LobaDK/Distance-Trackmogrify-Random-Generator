@@ -1,6 +1,11 @@
 import random
-import pyperclip
+import os
+try:
+    import pyperclip
+except:
+    pass
 
+os.system('mode 200,20')
 while(True):
     Difficulty = ["Casual","Trivial","Safe","Easy","Normal","Medium","Advanced","Hard","Expert","Nightmare","Doom","Challenging","Maniac","Hazardous","Extreme"]
     Color = ["Red","Blue","Green","Yellow","Purple","Pink","Orange","Black","White","Grey","Tan"]
@@ -117,7 +122,10 @@ while(True):
     Output += " " + random.choice(Placement)
     #Randomly add Intensity
     Output += " " + random.choice(Intensity)
-        
-    pyperclip.copy(Output)
-    print("sequence has been copied to clipboard.\n\n",Output)
-    input("Press enter to conitnue")
+    
+    try:
+        pyperclip.copy(Output)
+        print("Sequence has been copied to clipboard.\n\n",Output)
+    except:
+        print(Output,"\n\nWant to get the sequence automaticalled saved to clipboard? Use 'pip install pyperclip' to install the required module, and it should work")
+    input("\nPress enter to conitnue")
