@@ -25,7 +25,6 @@ while(True):
     Intensity = ["Barely","Slightly","Kinda","So","Very","Double","Super","Triple","Mega","Ultra","Insanely"]
 
 
-    RNG = ""
     RNGOutput = []
     Output = ""
     Choice = ""
@@ -48,72 +47,61 @@ while(True):
     #Randomly add a difficulty
     Output = random.choice(Difficulty)
     #Randomly add between 0 and 2 colors
-    RNG = random.randint(0,2)
-    if not RNG == 0:
-        RNGOutput += random.sample(Color, k=RNG)
+    RNGOutput += random.sample(Color, k=random.randint(0,2))
+    if RNGOutput:
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add between 0 and 2 Advanced colors
-    RNG = random.randint(0,2)
-    if not RNG == 0:
-        RNGOutput += random.sample(Advanced_Color, k=RNG)
+    RNGOutput += random.sample(Advanced_Color, k=random.randint(0,2))
+    if RNGOutput:
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add between 0 and 2 Lighting
-    RNG = random.randint(0,2)
-    if not RNG == 0:
-        RNGOutput += random.sample(Lighting, k=RNG)
+    RNGOutput += random.sample(Lighting, k=random.randint(0,2))
+    if RNGOutput:
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add between 0 and 2 Track_Lighting
-    RNG = random.randint(0,2)
-    if not RNG == 0:
-        RNGOutput += random.sample(Track_Lighting, k=RNG)
+    RNGOutput += random.sample(Track_Lighting, k=random.randint(0,2))
+    if RNGOutput:
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add between 0 and 3 Global_Lighting
-    RNG = random.randint(0,3)
-    if not RNG == 0:
-        RNGOutput += random.sample(Global_Lighting, k=RNG)
+    RNGOutput += random.sample(Global_Lighting, k=random.randint(0,3))
+    if RNGOutput:
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add between 0 and 3 Environment
-    RNG = random.randint(0,3)
-    if not RNG == 0:
-        RNGOutput += random.sample(Environment, k=RNG)
+    RNGOutput += random.sample(Environment, k=random.randint(0,3))
+    if RNGOutput:
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add between 0 and 2 Theme
-    RNG = random.randint(0,2)
-    if not RNG == 0:
-        RNGOutput += random.sample(Theme, k=RNG)
+    RNGOutput += random.sample(Theme, k=random.randint(0,2))
+    if RNGOutput:    
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add between 0 and 3 Elevation
-    RNG = random.randint(0,3)
-    if not RNG == 0:
-        RNGOutput += random.sample(Elevation, k=RNG)
+    RNGOutput += random.sample(Elevation, k=random.randint(0,3))
+    if RNGOutput:
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add between 0 and 3 Style
-    RNG = random.randint(0,3)
-    if not RNG == 0:
-        RNGOutput += random.sample(Style, k=RNG)
+    RNGOutput += random.sample(Style, k=random.randint(0,3))
+    if RNGOutput:
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add Length
-    RNGOutput += random.choices(Length,cum_weights=(5,15,35,60,90,115),k=1)
-    Output += " " + " ".join(RNGOutput)
+    #RNGOutput += random.choices(Length,cum_weights=(5,15,35,60,90,115),k=1)
+    Output += " " + " ".join(random.choices(Length,cum_weights=(5,15,35,60,90,115),k=1))
     RNGOutput = []
     #Randomly add between 1 and 12 Hazard
-    RNG = random.randint(1,12)
-    RNGOutput += random.sample(Hazard, k=RNG)
-    Output += " " + " ".join(RNGOutput)
+    #RNGOutput += random.sample(Hazard, k=random.randint(1,12))
+    Output += " " + " ".join(random.sample(Hazard, k=random.randint(1,12)))
     RNGOutput = []
     #Randomly add between 0 and 3 Scenery
-    RNG = random.randint(0,3)
-    if not RNG == 0:
-        RNGOutput += random.sample(Scenery, k=RNG)
+    RNGOutput += random.sample(Scenery, k=random.randint(0,3))
+    if RNGOutput:
         Output += " " + " ".join(RNGOutput)
     RNGOutput = []
     #Randomly add Size
