@@ -384,7 +384,7 @@ while(True):
                         'Moon'
                         ]
 
-    Lenght_mod = ['Fleeting',
+    Length_mod = ['Fleeting',
                 'Momentary',
                 'Short',
                 'Quick',
@@ -406,7 +406,7 @@ while(True):
                 'Pumpkin'
                 ]
 
-    Output = '{Misc_color} {Color} {Track_lighting} {Environment} {Difficulty} {Elevation} {Style} {Scenery_type} {Scenery_size} {Scenery_placement} {Intensity} {Advanced_color} {Global_lighting} {Lenght} {Hazard} {Salt}'.format(
+    Output = '{Misc_color} {Color} {Track_lighting} {Environment} {Difficulty} {Elevation} {Style} {Scenery_type} {Scenery_size} {Scenery_placement} {Intensity} {Advanced_color} {Global_lighting} {Length} {Hazard} {Salt}'.format(
                             Misc_color=" ".join(random.sample(Misc_color_mod, k=random.randint(0,1))),
                             Color=" ".join(random.sample(Color_mod, k=random.randint(0,4))),
                             Track_lighting=" ".join(random.sample(Track_lighting_mod, k=random.randint(0,1))),
@@ -420,7 +420,7 @@ while(True):
                             Intensity=random.choice(Intensity_mod),
                             Advanced_color=" ".join(random.sample(Advanced_color_mod, k=random.randint(0,2))),
                             Global_lighting=" ".join(random.sample(Global_lighting_mod, k=random.randint(0,1))),
-                            Lenght=" ".join(random.choices(Lenght_mod, k=1, weights=(5, 10, 20, 40, 100, 80))),
+                            Length=" ".join(random.choices(Length_mod, k=1, weights=(5, 10, 20, 40, 100, 80))),
                             Hazard=" ".join(random.sample(Hazard_mod, k=random.randint(0,7))),
                             Salt="".join(random.choice(characters) for _ in range(random.randint(5,40)))
                             )
@@ -431,7 +431,7 @@ while(True):
         pyperclip.copy(Output)
         print("Sequence has been copied to clipboard.\n\n",Output)
     except:
-        print(Output,"\n\nWant to get the sequence automaticalled saved to clipboard? Use 'pip install pyperclip' to install the required module, and it should work")
+        print(Output,"\n\nWant to get the sequence automatically saved to clipboard? Use 'pip install pyperclip' to install the required module, and it should work")
 
     while True:
         save_sequence = input('\nSave sequence to database? Y/N: ').upper()
