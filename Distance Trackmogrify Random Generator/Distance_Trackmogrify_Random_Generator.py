@@ -1,6 +1,8 @@
 import os
 import random
 import string
+from time import sleep
+import sqlite3
 
 try:
     import pyperclip
@@ -430,4 +432,33 @@ while(True):
         print("Sequence has been copied to clipboard.\n\n",Output)
     except:
         print(Output,"\n\nWant to get the sequence automaticalled saved to clipboard? Use 'pip install pyperclip' to install the required module, and it should work")
-    input("\nPress enter to conitnue")
+
+    while True:
+        save_sequence = input('\nSave sequence to database? Y/N: ').upper()
+        if save_sequence == 'Y':
+            con = sqlite3.connect('Distance-trackmogrify-sequences.db')
+            cur = con.cursor()
+            cur.execute('CREATE TABLE IF NOT EXISTS sequences(ID INTEGER PRIMARY KEY, sequence NOT NULL, description, liked BOOLEAN NOT NULL);')
+            sequence_description = input('\nSequence description (press enter to skip): ')
+            while True:
+                sequence_liked = input('\nLiked the sequence? Y/N: ').upper()
+                if sequence_liked == 'Y':
+                    liked = 1
+                elif sequence_liked == 'N':
+                    liked = 0
+                else:
+                    print('Invalid choice')
+                    sleep(2)
+                    continue
+                break
+            cur.execute('INSERT INTO sequences (sequence, description, liked) VALUES(?, ?, ?);', (Output, sequence_description, sequence_liked))
+            con.commit()
+            cur.close()
+
+        elif save_sequence == 'N':
+            break
+        else:
+            print('Invalid choice')
+            sleep(2)
+            continue
+        break
