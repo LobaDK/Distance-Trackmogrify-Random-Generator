@@ -406,7 +406,7 @@ while(True):
                 'Pumpkin'
                 ]
 
-    Output = '{Misc_color} {Color} {Track_lighting} {Environment} {Difficulty} {Elevation} {Style} {Scenery_type} {Scenery_size} {Scenery_placement} {Intensity} {Advanced_color} {Global_lighting} {Length} {Hazard} {Salt}'.format(
+    output = '{Misc_color} {Color} {Track_lighting} {Environment} {Difficulty} {Elevation} {Style} {Scenery_type} {Scenery_size} {Scenery_placement} {Intensity} {Advanced_color} {Global_lighting} {Length} {Hazard} {Salt}'.format(
                             Misc_color=" ".join(random.sample(Misc_color_mod, k=random.randint(0,1))),
                             Color=" ".join(random.sample(Color_mod, k=random.randint(0,4))),
                             Track_lighting=" ".join(random.sample(Track_lighting_mod, k=random.randint(0,1))),
@@ -425,40 +425,91 @@ while(True):
                             Salt="".join(random.choice(characters) for _ in range(random.randint(5,40)))
                             )
 
-    Output = " ".join(Output.split())
+    output = " ".join(output.split())
+    sequence_hash = output.split()[-1]
+    output_without_hash = output.rsplit(' ', 1)[0]
 
     try:
-        pyperclip.copy(Output)
-        print("Sequence has been copied to clipboard.\n\n",Output)
+        pyperclip.copy(output)
+        print("\nSequence has been copied to clipboard.\n\n",output)
     except:
-        print(Output,"\n\nWant to get the sequence automatically saved to clipboard? Use 'pip install pyperclip' to install the required module, and it should work")
+        print(output,"\n\nWant to get the sequence automatically saved to clipboard? Use 'pip install pyperclip' to install the required module, and it should work")
 
     while True:
-        save_sequence = input('\nSave sequence to database? Y/N: ').upper()
-        if save_sequence == 'Y':
-            con = sqlite3.connect('Distance-trackmogrify-sequences.db')
-            cur = con.cursor()
-            cur.execute('CREATE TABLE IF NOT EXISTS sequences(ID INTEGER PRIMARY KEY, sequence NOT NULL, description, liked BOOLEAN NOT NULL);')
-            sequence_description = input('\nSequence description (press enter to skip): ')
+        datebase_interact = ''
+        datebase_interact = input('\nInteract with the database? y/N: ').upper()
+        if datebase_interact == '':
+            datebase_interact = 'N'
+        if datebase_interact == 'Y':
             while True:
-                sequence_liked = input('\nLiked the sequence? Y/N: ').upper()
-                if sequence_liked == 'Y':
-                    liked = 1
-                elif sequence_liked == 'N':
-                    liked = 0
+                con = sqlite3.connect('Distance-trackmogrify-sequences.db')
+                cur = con.cursor()
+                save_sequence = input('\n[R]eturn, [S]ave sequence or [V]iew database? R/S/V: ').upper()
+                if save_sequence == 'R':
+                    cur.close()
+                    break
+                elif save_sequence == 'S':
+                    cur.execute('CREATE TABLE IF NOT EXISTS sequences(ID INTEGER PRIMARY KEY, sequence NOT NULL, sequence_hash NOT NULL, description, liked NOT NULL);')
+                    sequence_description = input('\nSequence description (press enter to skip): ')
+                    while True:
+                        sequence_liked = input('\nLiked the sequence? Y/N: ').upper()
+                        if sequence_liked == 'Y':
+                            liked = 'yes'
+                        elif sequence_liked == 'N':
+                            liked = 'no'
+                        else:
+                            print('Invalid choice')
+                            sleep(2)
+                            continue
+                        break
+                    cur.execute('INSERT INTO sequences (sequence, sequence_hash, description, liked) VALUES(?, ?, ?, ?);', (output_without_hash, sequence_hash, sequence_description, liked))
+                    con.commit()
+                    cur.close()
+
+                elif save_sequence == 'V':
+                    sequence = []
+                    sequence_hash = []
+                    description = []
+                    liked = []
+                    res = cur.execute('SELECT sequence, sequence_hash, description, liked from sequences')
+                    for fetch in res.fetchall():
+                        sequence.append(fetch[0])
+                        sequence_hash.append(fetch[1])
+                        description.append(fetch[2])
+                        liked.append(fetch[3])
+                    print('\n')
+                    for i in range(len(sequence)):
+                        print(f'Entry[{i}] Sequence: {sequence[i]}, sequence_hash: {sequence_hash[i]}, Description: {description[i] if description[i] else "None"}, Liked: {liked[i]}')
+                        print('------------------------------------------------------------------------------------')
+                        cur.close()
+                    while True:
+                        entry_id = ''
+                        try:
+                            entry_id = int(input('\nProvide entry ID to copy sequence and hash, or press enter without entering anything, to just return: '))
+                        except ValueError:
+                            if not entry_id:
+                                break
+                            print('\nPlease input a number')
+                            continue
+                        if len(sequence) > entry_id >= 0:
+                            try:
+                                pyperclip.copy(sequence[entry_id] + sequence_hash[entry_id])
+                                print(f'\nSequence: {sequence[entry_id] + sequence_hash[entry_id]} copied to clipboard!')
+                            except:
+                                print(f"\nPyperclip is not installed, but here's the sequence and hash: {sequence[entry_id] + sequence_hash[entry_id]}")
+                            break
+                        else:
+                            print('\nEntry ID outside of range!')        
+                    continue
                 else:
                     print('Invalid choice')
                     sleep(2)
                     continue
                 break
-            cur.execute('INSERT INTO sequences (sequence, description, liked) VALUES(?, ?, ?);', (Output, sequence_description, sequence_liked))
-            con.commit()
-            cur.close()
-
-        elif save_sequence == 'N':
+            break
+        elif datebase_interact == 'N':
             break
         else:
             print('Invalid choice')
             sleep(2)
             continue
-        break
